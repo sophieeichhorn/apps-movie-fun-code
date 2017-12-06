@@ -1,6 +1,7 @@
 package org.superbiz.moviefun;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,11 @@ public class DbConfig {
         dataSource.setURL(url);
         dataSource.setUser(username);
         dataSource.setPassword(password);
-        return dataSource;
+
+        HikariDataSource hikariDataSource = new HikariDataSource();
+        hikariDataSource.setDataSource(dataSource);
+
+        return hikariDataSource;
     }
 
     @Bean
@@ -41,7 +46,11 @@ public class DbConfig {
         dataSource.setURL(url);
         dataSource.setUser(username);
         dataSource.setPassword(password);
-        return dataSource;
+
+        HikariDataSource hikariDataSource = new HikariDataSource();
+        hikariDataSource.setDataSource(dataSource);
+
+        return hikariDataSource;
     }
 
     @Bean
@@ -55,7 +64,8 @@ public class DbConfig {
         return adapter;
     }
 
-    @Bean(name = "albumsEntityManager")
+    @Bean
+    @Qualifier("albumsEntityManager")
     public LocalContainerEntityManagerFactoryBean createAlbumsEntityManagerFactoryBean(DataSource albumsDataSource, HibernateJpaVendorAdapter adapter) {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 
@@ -67,7 +77,8 @@ public class DbConfig {
         return factoryBean;
     }
 
-    @Bean(name = "moviesEntityManager")
+    @Bean
+    @Qualifier("moviesEntityManager")
     public LocalContainerEntityManagerFactoryBean createMoviesEntityManagerFactoryBean(DataSource moviesDataSource, HibernateJpaVendorAdapter adapter) {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 

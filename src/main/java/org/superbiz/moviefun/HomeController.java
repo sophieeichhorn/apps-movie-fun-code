@@ -1,5 +1,6 @@
 package org.superbiz.moviefun;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,7 +12,7 @@ public class HomeController {
 
     MoviesBean moviesBean;
 
-    @Inject
+    @Autowired
     public HomeController(MoviesBean moviesBean) {
         this.moviesBean = moviesBean;
     }
